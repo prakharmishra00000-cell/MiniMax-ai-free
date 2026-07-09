@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obsidian Chat - Premium Messenger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Load Socket.io Client -->
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- AUTHENTICATION SCREEN -->
+    <div id="authScreen" class="auth-card">
+      <div class="auth-header">
+        <span class="auth-logo">✦</span>
+        <h2>Welcome to Obsidian Chat</h2>
+        <p>Private, real-time message studio</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button id="tabLogin" class="auth-tab-btn active">Sign In</button>
+        <button id="tabRegister" class="auth-tab-btn">Sign Up</button>
+      </div>
+
+      <form id="authForm" class="auth-form">
+        <div class="input-group">
+          <label for="authUsername">Username</label>
+          <input type="text" id="authUsername" placeholder="e.g. yash" required autocomplete="username">
+        </div>
+        <div class="input-group">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        
+        <!-- Registration Fields (hidden by default) -->
+        <div id="registerFields" class="hidden">
+          <div class="input-group">
+            <label>Select Avatar Theme</label>
+            <div class="avatar-presets">
+              <label class="preset-label">
+                <input type="radio" name="avatarTheme" value="bottts" checked>
+                <span>🤖 Robot</span>
+              </label>
+              <label class="preset-label">
+                <input type="radio" name="avatarTheme" value="adventurer">
+                <span>🎒 Adventurer</span>
+              </label>
+              <label class="preset-label">
+                <input type="radio" name="avatarTheme" value="micah">
+                <span>👤 Human</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" id="authSubmitBtn" class="btn btn-primary">Sign In</button>
+      </form>
+      <div id="authError" class="auth-error-message hidden"></div>
+    </div>
+
+    <!-- MAIN CHAT STUDIO -->
+    <div id="chatStudio" class="chat-studio hidden">
+      
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <header class="sidebar-header">
+          <div class="user-profile">
+            <img id="userAvatar" src="" alt="avatar" class="avatar">
+            <div class="user-profile-info">
+              <h3 id="currentUsername">Username</h3>
+              <span class="status-indicator-text">Online</span>
+            </div>
+          </div>
+          <button id="btnLogout" class="btn btn-icon">Logout ➔</button>
+        </header>
+
+        <div class="search-bar">
+          <input type="text" id="userSearchInput" placeholder="Search or start new chat...">
+        </div>
+
+        <div class="chat-list-container">
+          <label class="section-title">Active Contacts</label>
+          <ul id="contactsList" class="contacts-list">
+            <!-- Dynamically populated -->
+            <li class="no-contacts">No contacts found</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- ACTIVE CHAT PANEL -->
+      <main class="chat-workspace">
+        <!-- Unselected Chat State -->
+        <div id="chatPlaceholder" class="chat-placeholder">
+          <span class="placeholder-icon">✦</span>
+          <h2>Your Message Workspace</h2>
+          <p>Search for a user on the sidebar or click on an active contact to start messaging instantly.</p>
+        </div>
+
+        <!-- Selected Chat Panel -->
+        <div id="activeChatPanel" class="active-chat-panel hidden">
+          <header class="chat-header">
+            <div class="active-contact-profile">
+              <img id="activeContactAvatar" src="" alt="avatar" class="avatar">
+              <div class="active-contact-details">
+                <h2 id="activeContactUsername">Contact Name</h2>
+                <span id="activeContactStatus" class="status-text">offline</span>
+              </div>
+            </div>
+          </header>
+
+          <div id="messagesLog" class="messages-log">
+            <!-- Messages are dynamically rendered here -->
+          </div>
+
+          <div id="typingIndicator" class="typing-indicator hidden">
+            <span id="typingIndicatorText">someone is typing...</span>
+            <div class="typing-dots">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <footer class="chat-input-area">
+            <form id="messageForm" class="message-form">
+              <textarea id="messageInput" placeholder="Type a message..." rows="1" required></textarea>
+              <button type="submit" class="btn btn-primary btn-send">➔</button>
+            </form>
+          </footer>
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
